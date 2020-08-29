@@ -21,3 +21,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/register_new_member','HomeController@register_new_member');
+
+Route::get('/matrix','HomeController@matrix')->name('matrix');
+Route::post('/matrix_get_user','HomeController@matrix_get_user');

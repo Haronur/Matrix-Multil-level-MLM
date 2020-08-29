@@ -86,4 +86,29 @@ class HomeController extends Controller
             return $this->check_under_user($new_user->id);
         }
     }
+
+    public function matrix()
+    { 
+        return view('matrix');
+    }
+
+    public function matrix_get_user(Request $request)
+    {
+        if ($request->ajax()){
+            $users=User::all();
+
+            $user_array=$users->toArray();
+            $i = 0;
+            foreach ($user_array as $user) {
+
+                $data[$i]['id'] = $user['id'];
+                $data[$i]['username'] = $user['username'];
+                $data[$i]['email'] = $user['email'];
+                $data[$i++]['parent'] = ($user['upline_id']==0 ? "": $user['upline_id']);
+
+            }
+            return response()->json(['data'=>$data], 200);
+        }
+
+    }
 }
