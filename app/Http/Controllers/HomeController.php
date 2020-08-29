@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Auth;
 use App\User;
+use App\Adminsetting;
 class HomeController extends Controller
 {
     /**
@@ -27,7 +28,8 @@ class HomeController extends Controller
     {
         return view('home');
     }
-        public function register_new_member(Request $request)
+
+    public function register_new_member(Request $request)
     {
 
         $user =new User;
@@ -60,11 +62,13 @@ class HomeController extends Controller
         
                 $user->save();
         
-                return view('home');
+               return view('home');
             }
     }
 
     public function check_under_user($id){
+
+        if(User::where('upline_id',$id)->count()<Adminsetting::all()->last()->width){
 
             $upline_id=$id;
             $sameline_no=User::where('upline_id',$id)->count()+1;
@@ -74,5 +78,12 @@ class HomeController extends Controller
             $return_value["level_no"]=User::where('id',$upline_id)->first()->level_no+1;
 
             return $return_value;
+        }
+        else {
+            $new_user=User::where('upline_id',$id)->first();
+            if($new_user->level_no >= Adminsetting::all()->last()->depth) 
+                return false;
+            return $this->check_under_user($new_user->id);
+        }
     }
 }

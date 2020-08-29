@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             'fName' => 'John',
             'lName' => 'Doe',
             'gender' => 'M',
-            'join_date' => '2017-1-1',
+            'join_date' => '2020-30-08',
             'mobile_number' => '1234567890',
             'upline_id' => 0,
             'level_no' => 1,
@@ -26,6 +26,10 @@ class DatabaseSeeder extends Seeder
             'email' =>'admin@gmail.com',
             'password' => bcrypt('12345678'),
             'is_admin' => '1',
+        ]);
+        DB::table('adminsettings')->insert([
+            'width' => 2,
+            'depth' => 4,
         ]);
     }
 }
